@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Example assets folder
+/[Aa]ssets/ExampleAssets*
+
