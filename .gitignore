@@ -61,3 +61,4 @@ crashlytics-build.properties
 # Example assets folder
 /[Aa]ssets/ExampleAssets*
 
+*.dwlt
