@@ -1,27 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class FPSController : MonoBehaviour
 {
-    // Start is called before the first frame update
     [Header("Player Stats")]
     CharacterController m_CharacterController;
     public float m_Speed = 10.0f;
 
     public LayerMask m_ShootLayerMask;
-
-    [Header("Inputs")]
-    public KeyCode m_LeftKeyCode = KeyCode.A;
-    public KeyCode m_RightKeyCode = KeyCode.D;
-    public KeyCode m_UpKeyCode = KeyCode.W;
-    public KeyCode m_DownKeyCode = KeyCode.S;
-
-    [Header("Debug Inputs")]
-    public KeyCode m_DebugLockAngleKeyCode = KeyCode.I;
-    public KeyCode m_DebugLockKeyCode = KeyCode.O;
-
 
     public Camera m_PlayerCamera;
     float m_Yaw;
@@ -34,16 +21,27 @@ public class FPSController : MonoBehaviour
     public bool m_InvertedYaw = false;
     public bool m_InvertedPitch = false;
 
-    bool m_AngleLocked = false;
-    bool m_AimLocked = true;
 
-    [Header("Menus")]
-    public GameObject m_GameOverMenu;
+
+
+    [Header("Inputs")]
+    public KeyCode m_LeftKeyCode = KeyCode.A;
+    public KeyCode m_RightKeyCode = KeyCode.D;
+    public KeyCode m_UpKeyCode = KeyCode.W;
+    public KeyCode m_DownKeyCode = KeyCode.S;
+
+    [Header("Debug Inputs")]
+    public KeyCode m_DebugLockAngleKeyCode = KeyCode.I;
+    public KeyCode m_DebugLockKeyCode = KeyCode.O;
+
+    public bool m_AngleLocked = false;
+    public bool m_AimLocked = true;
 
 
     void Awake()
     {
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
 
         m_Yaw = transform.rotation.eulerAngles.y;
@@ -62,13 +60,21 @@ public class FPSController : MonoBehaviour
 
 #if UNITY_EDITOR
         if (Input.GetKeyDown(m_DebugLockAngleKeyCode))
+        {
             m_AngleLocked = !m_AngleLocked;
+        }
+
         if (Input.GetKeyDown(m_DebugLockKeyCode))
         {
             if (Cursor.lockState == CursorLockMode.Locked)
+            {
                 Cursor.lockState = CursorLockMode.None;
+            }
             else
+            {
                 Cursor.lockState = CursorLockMode.Locked;
+            }
+
             m_AimLocked = Cursor.lockState == CursorLockMode.Locked;
         }
 #endif
