@@ -7,6 +7,7 @@ public class FPSController : MonoBehaviour
     [Header("Player Stats")]
     CharacterController m_CharacterController;
     public float m_Speed = 10.0f;
+    public float m_VerticalSpeed = 0.0f;
 
     public LayerMask m_ShootLayerMask;
 
@@ -20,9 +21,6 @@ public class FPSController : MonoBehaviour
     public Transform m_PitchControllerTransform;
     public bool m_InvertedYaw = false;
     public bool m_InvertedPitch = false;
-
-
-
 
     [Header("Inputs")]
     public KeyCode m_LeftKeyCode = KeyCode.A;
@@ -50,11 +48,6 @@ public class FPSController : MonoBehaviour
         m_CharacterController = GetComponent<CharacterController>();
     }
 
-
-    void Start()
-    {
-
-    }
     void Update()
     {
 
@@ -116,6 +109,8 @@ public class FPSController : MonoBehaviour
 
         l_Movement.Normalize();
         l_Movement = l_Movement * Time.deltaTime * m_Speed;
+        m_VerticalSpeed += Physics.gravity.y * Time.deltaTime; //3
+        l_Movement.y = m_VerticalSpeed * Time.deltaTime; //3
 
         CollisionFlags l_CollisionFlags = m_CharacterController.Move(l_Movement);
 
@@ -124,5 +119,10 @@ public class FPSController : MonoBehaviour
 
         }
 
+        //Return vertical speed to 0 to avoid gravity accumulation
+        if ((l_CollisionFlags & CollisionFlags.Below) != 0)
+        {
+            m_VerticalSpeed = 0.0f;
+        }
     }
 }
