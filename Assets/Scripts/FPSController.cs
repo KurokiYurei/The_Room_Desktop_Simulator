@@ -27,6 +27,7 @@ public class FPSController : MonoBehaviour
     public KeyCode m_RightKeyCode = KeyCode.D;
     public KeyCode m_UpKeyCode = KeyCode.W;
     public KeyCode m_DownKeyCode = KeyCode.S;
+    public KeyCode m_InteractKeyCode = KeyCode.E;
 
     [Header("Debug Inputs")]
     public KeyCode m_DebugLockAngleKeyCode = KeyCode.I;
