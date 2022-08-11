@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class HUD : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject interactDoorText;
     void Start()
     {
         
@@ -17,13 +15,13 @@ public class HUD : MonoBehaviour
         
     }
 
-    public void ShowDoorText()
+    public void ShowText(GameObject textToShow)
     {
-        interactDoorText.SetActive(true);
+        textToShow.SetActive(true);
     }
 
-    public void HideDoorText()
+    public void HideText(GameObject textToShow)
     {
-        interactDoorText.SetActive(false);
+        textToShow.SetActive(false);
     }
 }

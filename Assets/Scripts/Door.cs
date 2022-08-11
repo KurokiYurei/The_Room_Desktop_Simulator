@@ -13,6 +13,9 @@ public class Door : MonoBehaviour
     [SerializeField]
     private GameObject door;
 
+    [SerializeField]
+    private GameObject doorText;
+
     private bool onRange;
     private bool doorOpen;
 
@@ -50,7 +53,7 @@ public class Door : MonoBehaviour
         if (other.tag == "Player")
         {
             //print("Dintre porta");
-            gameHud.ShowDoorText();
+            gameHud.ShowText(doorText);
             onRange = true;
         }
     }
@@ -60,7 +63,7 @@ public class Door : MonoBehaviour
         if (other.tag == "Player")
         {
             //print("Fora porta");
-            gameHud.HideDoorText();
+            gameHud.HideText(doorText);
             onRange = false;
         }
     }
