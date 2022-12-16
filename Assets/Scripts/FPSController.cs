@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class FPSController : MonoBehaviour
 {
@@ -23,11 +25,11 @@ public class FPSController : MonoBehaviour
     public bool m_InvertedPitch = false;
 
     [Header("Inputs")]
-    public KeyCode m_LeftKeyCode = KeyCode.A;
-    public KeyCode m_RightKeyCode = KeyCode.D;
-    public KeyCode m_UpKeyCode = KeyCode.W;
-    public KeyCode m_DownKeyCode = KeyCode.S;
-    public KeyCode m_InteractKeyCode = KeyCode.E;
+    private PlayerInput m_playerInput;
+    private InputAction m_moveAction;
+    private InputAction m_lookAction;
+    private InputAction m_lanternAction;
+    private InputAction m_interactAction;
 
     [Header("Debug Inputs")]
     public KeyCode m_DebugLockAngleKeyCode = KeyCode.I;
@@ -42,6 +44,11 @@ public class FPSController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        m_playerInput = GetComponent<PlayerInput>();
+        m_moveAction = m_playerInput.actions["Movement"];
+        m_lookAction = m_playerInput.actions["Look"];
+        m_lanternAction = m_playerInput.actions["Lantern"];
+        m_interactAction = m_playerInput.actions["Interact"];
 
         m_Yaw = transform.rotation.eulerAngles.y;
         m_Pitch = m_PitchControllerTransform.localRotation.eulerAngles.x;
@@ -73,8 +80,10 @@ public class FPSController : MonoBehaviour
         }
 #endif
 
-        float l_MouseAxisY = Input.GetAxis("Mouse Y");
-        float l_MouseAxisX = Input.GetAxis("Mouse X");
+        Vector2 inputCamera = m_lookAction.ReadValue<Vector2>();
+
+        float l_MouseAxisX = inputCamera.x;
+        float l_MouseAxisY = inputCamera.y;        
 
 #if UNITY_EDITOR
         if (m_AngleLocked)
@@ -92,21 +101,17 @@ public class FPSController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0.0f, m_Yaw, 0.0f);
         m_PitchControllerTransform.localRotation = Quaternion.Euler(m_Pitch, 0.0f, 0.0f);
 
-        Vector3 l_Movement = Vector3.zero;
+        Vector2 input = m_moveAction.ReadValue<Vector2>();
+
         float l_YawInRadians = m_Yaw * Mathf.Deg2Rad;
         float l_Yaw90InRadians = (m_Yaw + 90.0f) * Mathf.Deg2Rad;
         Vector3 l_Forward = new Vector3(Mathf.Sin(l_YawInRadians), 0.0f, Mathf.Cos(l_YawInRadians));
         Vector3 l_Right = new Vector3(Mathf.Sin(l_Yaw90InRadians), 0.0f, Mathf.Cos(l_Yaw90InRadians));
 
+        Vector3 l_Movement = Vector3.zero;
 
-        if (Input.GetKey(m_UpKeyCode))
-            l_Movement = l_Forward;
-        else if (Input.GetKey(m_DownKeyCode))
-            l_Movement = -l_Forward;
-        if (Input.GetKey(m_RightKeyCode))
-            l_Movement += l_Right;
-        else if (Input.GetKey(m_LeftKeyCode))
-            l_Movement -= l_Right;
+       l_Movement = l_Right * input.x;
+        l_Movement += l_Forward * input.y;
 
         l_Movement.Normalize();
         l_Movement = l_Movement * Time.deltaTime * m_Speed;
@@ -125,5 +130,10 @@ public class FPSController : MonoBehaviour
         {
             m_VerticalSpeed = 0.0f;
         }
+    }
+
+    private void LightLantern()
+    {
+
     }
 }

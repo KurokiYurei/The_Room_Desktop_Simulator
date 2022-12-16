@@ -22,12 +22,12 @@ public class Computer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (onRange && Input.GetKeyDown(player.m_InteractKeyCode))
-        {
-            SceneManager.LoadSceneAsync(sceneName);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
+        //if (onRange && Input.GetKeyDown(player.m_InteractKeyCode))
+        //{
+        //    SceneManager.LoadSceneAsync(sceneName);
+        //    Cursor.visible = true;
+        //    Cursor.lockState = CursorLockMode.None;
+        //}
     }
 
     private void OnTriggerEnter(Collider other)

@@ -29,23 +29,23 @@ public class Door : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (onRange && Input.GetKeyDown(player.m_InteractKeyCode))
-        {
-            switch (doorOpen)
-            {
-                case true:
-                    door.GetComponent<Animation>().Play("ClosingDoor"); ;
-                    doorOpen = false;
-                    break;
+        //if (onRange && Input.GetKeyDown(player.m_InteractKeyCode))
+        //{
+        //    switch (doorOpen)
+        //    {
+        //        case true:
+        //            door.GetComponent<Animation>().Play("ClosingDoor"); ;
+        //            doorOpen = false;
+        //            break;
 
-                case false:
-                    door.GetComponent<Animation>().Play("OpeningDoor");
-                    doorOpen = true;
-                    break;
-                default:
-                    break;
-            }
-        }
+        //        case false:
+        //            door.GetComponent<Animation>().Play("OpeningDoor");
+        //            doorOpen = true;
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
