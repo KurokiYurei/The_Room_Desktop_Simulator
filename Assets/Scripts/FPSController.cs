@@ -80,10 +80,21 @@ public class FPSController : MonoBehaviour
         }
 #endif
 
+        Camera();
+        Movement();
+    }
+
+    private void LightLantern()
+    {
+
+    }
+
+    private void Camera()
+    {
         Vector2 inputCamera = m_lookAction.ReadValue<Vector2>();
 
         float l_MouseAxisX = inputCamera.x;
-        float l_MouseAxisY = inputCamera.y;        
+        float l_MouseAxisY = inputCamera.y;
 
 #if UNITY_EDITOR
         if (m_AngleLocked)
@@ -101,6 +112,10 @@ public class FPSController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0.0f, m_Yaw, 0.0f);
         m_PitchControllerTransform.localRotation = Quaternion.Euler(m_Pitch, 0.0f, 0.0f);
 
+    }
+
+    private void Movement()
+    {
         Vector2 input = m_moveAction.ReadValue<Vector2>();
 
         float l_YawInRadians = m_Yaw * Mathf.Deg2Rad;
@@ -110,7 +125,7 @@ public class FPSController : MonoBehaviour
 
         Vector3 l_Movement = Vector3.zero;
 
-       l_Movement = l_Right * input.x;
+        l_Movement = l_Right * input.x;
         l_Movement += l_Forward * input.y;
 
         l_Movement.Normalize();
@@ -120,20 +135,10 @@ public class FPSController : MonoBehaviour
 
         CollisionFlags l_CollisionFlags = m_CharacterController.Move(l_Movement);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-
-        }
-
         //Return vertical speed to 0 to avoid gravity accumulation
         if ((l_CollisionFlags & CollisionFlags.Below) != 0)
         {
             m_VerticalSpeed = 0.0f;
         }
-    }
-
-    private void LightLantern()
-    {
-
     }
 }

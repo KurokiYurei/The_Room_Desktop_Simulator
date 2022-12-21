@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class Door : MonoBehaviour
 {
@@ -19,33 +21,40 @@ public class Door : MonoBehaviour
     private bool onRange;
     private bool doorOpen;
 
+    [Header("Inputs")]
+    private PlayerInput m_playerInput;
+    private InputAction m_interactAction;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        m_playerInput = GetComponent<PlayerInput>();
+        m_interactAction = m_playerInput.actions["Interact"];
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (onRange && Input.GetKeyDown(player.m_InteractKeyCode))
-        //{
-        //    switch (doorOpen)
-        //    {
-        //        case true:
-        //            door.GetComponent<Animation>().Play("ClosingDoor"); ;
-        //            doorOpen = false;
-        //            break;
+        bool interactionInput = m_interactAction.IsPressed();
+        if (onRange && interactionInput)
+        {
+            switch (doorOpen)
+            {
+                case true:
+                    door.GetComponent<Animation>().Play("ClosingDoor"); ;
+                    doorOpen = false;
+                    break;
 
-        //        case false:
-        //            door.GetComponent<Animation>().Play("OpeningDoor");
-        //            doorOpen = true;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
+                case false:
+                    door.GetComponent<Animation>().Play("OpeningDoor");
+                    doorOpen = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+        print(doorOpen);
     }
 
     private void OnTriggerEnter(Collider other)
